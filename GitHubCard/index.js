@@ -2,15 +2,36 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-
+const followersArray = [];
 axios.get('https://api.github.com/users/tonyrkovar/followers')
   .then(response => {
     response.data.forEach( (obj) => {
       followersArray.push(obj.login)
-      // axios.get(`https://api.github.com/users/${obj.login}`)
+    })
+    followersArray.forEach( username => {
+      axios.get(`https://api.github.com/users/${username}`)
+        .then( res => {
+          const createCards = userData(res.data);
+          usersParent.appendChild(createCards);
+        })
     })
     console.log(followersArray)
   })
+
+  // followersArray.forEach( username => {
+  //   console.log('hi')
+  //   axios.get(`https://api.github.com/users/${username}`)
+  //   .then(response => {
+  //     console.log(response);
+  //     const newCard = userData(response.data);
+  //     entryPoint.appendChild(newCard);
+  //   })
+  //   .catch(error => {
+  //     console.log('something went wrong', error);
+  //   })
+  // })
+
+
 
   // map over followers array, do get request and the pur the request data into the card
 
@@ -35,7 +56,7 @@ axios.get('https://api.github.com/users/tonyrkovar/followers')
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -59,6 +80,7 @@ const followersArray = [];
 
 const usersParent = document.querySelector('.cards');
 
+
 followersArray.forEach( e => {
   usersParent.appendChild(userData(e));
 })
@@ -80,12 +102,12 @@ function userData(obj){
 
 
   // setting the content fiels, need to come back and check pathing
-  userImg.src = obj.userImg;
+  userImg.src = obj.avatar_url;
   name.textContnet = obj.name;
   userName.textContent = obj.userName;
   location.textContent = obj.location;
-  profile.textContent = 'Profile:';
-  profileLink.a = '';
+  profileLink.href = obj.html_url;
+  profile.textContent = `Profile: ${obj.html_url}`;
   followers.textContent = `Followers: ${obj.followers}`;
   following.textContent = `Following: ${obj.following}`;
   bio.textContent = `Bio: ${obj.bio}`;
@@ -113,6 +135,7 @@ function userData(obj){
   return newCard;
 }
 
+userData(followersArray);
 
 
 // console.log(userData('https://api.github.com/users/tonyrkovar/followers'));
