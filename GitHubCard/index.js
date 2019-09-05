@@ -13,6 +13,7 @@ axios.get('https://api.github.com/users/tonyrkovar/followers')
         .then( res => {
           const createCards = userData(res.data);
           usersParent.appendChild(createCards);
+          console.log(res);
         })
     })
     console.log(followersArray)
@@ -82,18 +83,21 @@ function userData(obj){
   followers = document.createElement('p'),
   following = document.createElement('p'),
   bio = document.createElement('p');
+  calender = document.createElement('img');
   
+
 
   // setting the content fiels, need to come back and check pathing
   userImg.src = obj.avatar_url;
-  name.textContnet = obj.name;
-  userName.textContent = obj.userName;
+  name.textContent = obj.name;
+  userName.textContent = obj.login;
   location.textContent = obj.location;
   profileLink.href = obj.html_url;
   profile.textContent = `Profile: ${obj.html_url}`;
   followers.textContent = `Followers: ${obj.followers}`;
   following.textContent = `Following: ${obj.following}`;
   bio.textContent = `Bio: ${obj.bio}`;
+  calender.src = `http://ghchart.rshah.org/${obj.login}`
   
 
 
@@ -102,7 +106,11 @@ function userData(obj){
   info.classList.add('card-info');
   name.classList.add('name');
   userName.classList.add('username');
-  
+  calender.classList.add('calender');
+
+  calender.style.width = '100%';
+
+
   // appending
   newCard.appendChild(userImg);
   newCard.appendChild(info);
@@ -114,7 +122,7 @@ function userData(obj){
   info.appendChild(following);
   info.appendChild(bio);
   profile.appendChild(profileLink);
-
+  newCard.appendChild(calender);
   
   return newCard;
 }
