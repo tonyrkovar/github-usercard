@@ -82,7 +82,7 @@ function userData(obj){
   followers = document.createElement('p'),
   following = document.createElement('p'),
   bio = document.createElement('p');
-
+  
 
   // setting the content fiels, need to come back and check pathing
   userImg.src = obj.avatar_url;
@@ -94,6 +94,7 @@ function userData(obj){
   followers.textContent = `Followers: ${obj.followers}`;
   following.textContent = `Following: ${obj.following}`;
   bio.textContent = `Bio: ${obj.bio}`;
+  
 
 
   //adding classes to my created Elements
@@ -101,7 +102,7 @@ function userData(obj){
   info.classList.add('card-info');
   name.classList.add('name');
   userName.classList.add('username');
-
+  
   // appending
   newCard.appendChild(userImg);
   newCard.appendChild(info);
@@ -114,7 +115,7 @@ function userData(obj){
   info.appendChild(bio);
   profile.appendChild(profileLink);
 
-
+  
   return newCard;
 }
 
