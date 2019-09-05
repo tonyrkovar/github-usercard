@@ -2,7 +2,7 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-const followersArray = [];
+const followersArray = ['tonyrkovar'];
 axios.get('https://api.github.com/users/tonyrkovar/followers')
   .then(response => {
     response.data.forEach( (obj) => {
@@ -17,21 +17,6 @@ axios.get('https://api.github.com/users/tonyrkovar/followers')
     })
     console.log(followersArray)
   })
-
-  // followersArray.forEach( username => {
-  //   console.log('hi')
-  //   axios.get(`https://api.github.com/users/${username}`)
-  //   .then(response => {
-  //     console.log(response);
-  //     const newCard = userData(response.data);
-  //     entryPoint.appendChild(newCard);
-  //   })
-  //   .catch(error => {
-  //     console.log('something went wrong', error);
-  //   })
-  // })
-
-
 
   // map over followers array, do get request and the pur the request data into the card
 
@@ -81,9 +66,7 @@ axios.get('https://api.github.com/users/tonyrkovar/followers')
 const usersParent = document.querySelector('.cards');
 
 
-followersArray.forEach( e => {
-  usersParent.appendChild(userData(e));
-})
+
 
 function userData(obj){
   //creating necessary elements
