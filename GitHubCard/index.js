@@ -3,10 +3,16 @@
            https://api.github.com/users/<your name>
 */
 
-axios.get('https://api.github.com/users/tonyrkovar')
+axios.get('https://api.github.com/users/tonyrkovar/followers')
   .then(response => {
-    console.log(response)
+    response.data.forEach( (obj) => {
+      followersArray.push(obj.login)
+      // axios.get(`https://api.github.com/users/${obj.login}`)
+    })
+    console.log(followersArray)
   })
+
+  // map over followers array, do get request and the pur the request data into the card
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -50,6 +56,66 @@ const followersArray = [];
 </div>
 
 */
+
+const usersParent = document.querySelector('.cards');
+
+followersArray.forEach( e => {
+  usersParent.appendChild(userData(e));
+})
+
+function userData(obj){
+  //creating necessary elements
+  const 
+  newCard = document.createElement('div'),
+  userImg = document.createElement('img'),
+  info = document.createElement('div'),
+  name = document.createElement('h3'),
+  userName = document.createElement('p'),
+  location = document.createElement('p'),
+  profile = document.createElement('p'),
+  profileLink = document.createElement('a'),
+  followers = document.createElement('p'),
+  following = document.createElement('p'),
+  bio = document.createElement('p');
+
+
+  // setting the content fiels, need to come back and check pathing
+  userImg.src = obj.userImg;
+  name.textContnet = obj.name;
+  userName.textContent = obj.userName;
+  location.textContent = obj.location;
+  profile.textContent = 'Profile:';
+  profileLink.a = '';
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = `Bio: ${obj.bio}`;
+
+
+  //adding classes to my created Elements
+  newCard.classList.add('card');
+  info.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+
+  // appending
+  newCard.appendChild(userImg);
+  newCard.appendChild(info);
+  info.appendChild(name);
+  info.appendChild(userName);
+  info.appendChild(location);
+  info.appendChild(profile);
+  info.appendChild(followers);
+  info.appendChild(following);
+  info.appendChild(bio);
+  profile.appendChild(profileLink);
+
+
+  return newCard;
+}
+
+
+
+// console.log(userData('https://api.github.com/users/tonyrkovar/followers'));
 
 /* List of LS Instructors Github username's: 
   tetondan
