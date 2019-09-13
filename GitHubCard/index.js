@@ -2,6 +2,24 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const followersArray = ['tonyrkovar'];
+axios.get('https://api.github.com/users/tonyrkovar/followers')
+  .then(response => {
+    response.data.forEach( (obj) => {
+      followersArray.push(obj.login)
+    })
+    followersArray.forEach( username => {
+      axios.get(`https://api.github.com/users/${username}`)
+        .then( res => {
+          const createCards = userData(res.data);
+          usersParent.appendChild(createCards);
+          console.log(res);
+        })
+    })
+    console.log(followersArray)
+  })
+
+  // map over followers array, do get request and the pur the request data into the card
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +42,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +63,74 @@ const followersArray = [];
 </div>
 
 */
+
+const usersParent = document.querySelector('.cards');
+
+
+
+
+function userData(obj){
+  //creating necessary elements
+  const 
+  newCard = document.createElement('div'),
+  userImg = document.createElement('img'),
+  info = document.createElement('div'),
+  name = document.createElement('h3'),
+  userName = document.createElement('p'),
+  location = document.createElement('p'),
+  profile = document.createElement('p'),
+  profileLink = document.createElement('a'),
+  followers = document.createElement('p'),
+  following = document.createElement('p'),
+  bio = document.createElement('p');
+  calender = document.createElement('img');
+  
+
+
+  // setting the content fiels, need to come back and check pathing
+  userImg.src = obj.avatar_url;
+  name.textContent = obj.name;
+  userName.textContent = obj.login;
+  location.textContent = obj.location;
+  profileLink.href = obj.html_url;
+  profile.textContent = `Profile: ${obj.html_url}`;
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = `Bio: ${obj.bio}`;
+  calender.src = `http://ghchart.rshah.org/${obj.login}`
+  
+
+
+  //adding classes to my created Elements
+  newCard.classList.add('card');
+  info.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+  calender.classList.add('calender');
+
+  calender.style.width = '100%';
+
+
+  // appending
+  newCard.appendChild(userImg);
+  newCard.appendChild(info);
+  info.appendChild(name);
+  info.appendChild(userName);
+  info.appendChild(location);
+  info.appendChild(profile);
+  info.appendChild(followers);
+  info.appendChild(following);
+  info.appendChild(bio);
+  profile.appendChild(profileLink);
+  newCard.appendChild(calender);
+  
+  return newCard;
+}
+
+userData(followersArray);
+
+
+// console.log(userData('https://api.github.com/users/tonyrkovar/followers'));
 
 /* List of LS Instructors Github username's: 
   tetondan
